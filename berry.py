@@ -21,6 +21,9 @@ class camera:
         self.y=pos[1]
         self.z=pos[2]
 class instance:
+    def get_speed(self, speed):
+        final=speed/self.fps
+        return final
     def bind_light(self, light):
         self.light=light
     def bind_camera(self, cam):
@@ -38,6 +41,8 @@ class instance:
         self.alive=True
         self.show_fps=show_fps
         self.model=model()
+        self.fps=60
+        self.frame=0
         self.vshade='''#version 330
 in vec3 in_pos;
 in vec3 in_color;
@@ -94,8 +99,6 @@ void main(){
             return
     def start(self):
         self.start=time.time()
-        self.fps=60
-        self.frame=0
         self.vbo=self.ctx.buffer(self.model.data)
         self.prog=self.ctx.program(vertex_shader=self.vshade, fragment_shader=self.frag)
         self.mat=self.prog['matrix']
