@@ -6,7 +6,7 @@ So far just basic 3D shapes, lighting and transformations.
 - Culling.
 - Clean up some functions, variables and Objects.
 - Better transformations.
-- Translations of models onto a map (perhaps and editor of sorts?).
-- Improved shaders (shadows, reflections, etc).
+- Translations of models onto a map (perhaps an editor of sorts?)
+- Improved shaders (shadows, reflections, etc.)
 ## Why?
 Purely a learning experience.
