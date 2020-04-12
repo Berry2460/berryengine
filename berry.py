@@ -64,9 +64,7 @@ void main(){
     vec3 light=u_light;
     vec4 light_pos=vec4(u_light_pos, 1.0f)*matrix;
     vec3 dist=vec3(0.0f, 0.0f, 0.0f);
-    dist.x=abs(pos.x-light_pos.x);
-    dist.y=abs(pos.y-light_pos.y);
-    dist.z=abs(pos.z-light_pos.z);
+    dist.xyz=abs(pos.xyz-light_pos.xyz);
     float total=sqrt(pow(dist.x, 2.0f)+pow(dist.y, 2.0f)+pow(dist.z, 2.0f));
     float ambient=0.7f;
     light/=total;
