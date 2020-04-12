@@ -1,15 +1,14 @@
 #Berry engine with Python and OpenGL
 import moderngl as gl
 import glfw
-#import multiprocessing
 import time
 import numpy
-#import math
 class model:
-    def __init__(self, obj=((-0.5, -0.5, 0.0, 1.0, 0.0, 0.0),(0.0, 0.5, 0.0, 0.0, 1.0, 0.0),(0.5, -0.5, 0.0, 0.0, 0.0, 1.0))):
-        data=[] #crimson highlight: 0.9, 0.1, 0.2 RGB
-        for p in obj:
-            data+=p
+    def __init__(self, data=(-0.5, -0.5, 0.0, 1.0, 0.0, 0.0,
+                             0.0, 0.5, 0.0, 0.0, 1.0, 0.0,
+                             0.5, -0.5, 0.0, 0.0, 0.0, 1.0)):
+        self.data=numpy.array(data, dtype='float32')
+    def swap(self, data):
         self.data=numpy.array(data, dtype='float32')
 class light_source:
     def __init__(self, pos=[0.15, 0.15, 0.08], color=[0.2, 0.2, 0.2]):
@@ -55,7 +54,7 @@ void main(){
     vec4 transform=vec4(in_pos, 1.0f)*matrix;
     gl_Position=vec4(transform);
 }'''
-        self.shaders=('''#version 330
+        self.shaders='''#version 330
 in vec3 pos;
 in vec3 color;
 uniform vec3 u_light;
@@ -73,15 +72,7 @@ void main(){
     light/=total;
     vec3 result=abs(color*light*ambient);
     gl_FragColor=vec4(result, 1.0f);
-}''',
-'''#version 330
-in vec3 pos;
-in vec3 color;
-void main(){
-    vec4 result=vec4(color/pos, 1.0f);
-    gl_FragColor=result;
-}''')
-        self.frag=self.shaders[frag_num]
+}'''
     def create_window(self, name='Berry Engine Viewport', x=640, y=480, fullscreen=False):
         self.name=name
         if not glfw.init():
@@ -100,7 +91,7 @@ void main(){
     def start(self):
         self.start=time.time()
         self.vbo=self.ctx.buffer(self.model.data)
-        self.prog=self.ctx.program(vertex_shader=self.vshade, fragment_shader=self.frag)
+        self.prog=self.ctx.program(vertex_shader=self.vshade, fragment_shader=self.shaders)
         self.mat=self.prog['matrix']
         self.light_pos=self.prog['u_light_pos']
         self.light=self.prog['u_light']
