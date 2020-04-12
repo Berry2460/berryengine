@@ -103,6 +103,7 @@ void main(){
         glfw.set_cursor_pos_callback(self.win, self.mouse_input)
         glfw.set_key_callback(self.win, self.keystroke)
     def render(self, clear=(0.0, 0.0, 0.0, 1.0)):
+        self.key_pressed=None
         glfw.swap_interval(self.vsync)
         if self.alive == False:
             glfw.terminate()
